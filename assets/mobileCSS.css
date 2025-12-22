@@ -21,13 +21,14 @@
   background-color: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(1px);
   z-index: 1;
-  opacity: 1;
-  transform: translateX(-100%);
+  opacity: 0;
+  /* transform: translateX(-100%); */
   transition: transform 0.35s ease;
 }
 
 .mobile_nav_container.active .mobile_out_lay {
-  transform: translateX(0);
+  /* transform: translateX(0); */
+  opacity: 4;
 }
 
 .mobile_wrapper {
@@ -125,7 +126,7 @@
   font-family: sans-serif;
   cursor: pointer;
   /* background-color: transparent; */
-  background-color: transparent;
+  background-color: #48c6d9;
   border: none;
   text-align: left;
   color: inherit;
