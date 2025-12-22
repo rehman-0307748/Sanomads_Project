@@ -1,0 +1,167 @@
+/* === MAIN HEADER - STICKY BELOW ANNOUNCEMENT BAR === */
+
+
+/* Sticky Header Section - Target the Shopify-generated header group */
+#shopify-section-sections--16593386995809__header {
+  position: sticky !important;
+  top: 0 !important;          /* St152icks at top (or below announcement bar - see below) */
+  z-index: 999 !important;
+  background-color: #ffffff;  /* Solid background to prevent bleed-through */
+  width: 100% !important;
+  height: fit-content;
+}
+
+/* Optional: Add shadow on scroll */
+#shopify-section-sections--16933368995809__header.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+
+.header_container {
+  position: sticky;
+  /* Change this value to match your announcement bar height */
+  top: 40px;                     /* ← COMMON VALUES: 40px, 48px, 56px - measure yours! */
+  z-index: 998;                  /* Below announcement bar (1000), above content */
+  background-color: #ffffff;     /* Solid background - prevents content bleed */
+  width: 100%;
+  min-height: 6rem;
+  display: grid;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 50px;
+  grid-template-columns: 1fr auto 1fr;
+  border-bottom: 1px solid #e8e0e0;
+  font-family: 'Area Normal', sans-serif;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Optional: Stronger shadow when scrolled */
+.header_container.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+.header_container a {
+  position: relative;
+  text-decoration: none;
+  color: var(--color-foreground);
+  font-family: 'Area Normal', sans-serif;
+}
+
+.header_container a sup {
+  position: absolute;
+  left: 100%;
+  overflow: hidden;
+  max-width: var(--page-margin);
+}
+
+.header_container svg {
+  width: 28px;
+  height: auto;
+}
+
+.header__menu ul {
+  display: flex;
+  padding: 0;
+  flex-wrap: wrap;
+  column-gap: 1.1rem;
+}
+
+.header__menu ul li {
+  list-style: none;
+}
+
+.header__menu ul li:hover {
+  text-decoration: underline;
+}
+
+.header__menu ul li a {
+  font-size: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  font-family: 'Area Normal', sans-serif;
+  font-style: normal;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.header__icons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+.header__logo span {
+  font-size: var(--text_size);
+  font-family: 'Area Normal', sans-serif;
+}
+
+.header__logo img {
+  min-width: 7rem;
+}
+
+/* Hamburger */
+.header_hamburger {
+  display: none; /* Hidden on desktop */
+  align-items: center;
+  gap: 14px;
+}
+
+.header_hamburger svg {
+  display: inline-block;
+  width: 24px;
+  height: auto;
+  cursor: pointer;
+}
+
+/* Mobile breakpoint */
+@media (max-width: 700px) {
+  
+  
+  .accounnt_icon{
+    
+    display: none !important;
+  }
+
+
+  .header_container {
+    grid-template-columns: auto 1fr auto; /* hamburger | logo (centered) | icons */
+    padding: 14px 16px;
+  }
+
+  .header__menu {
+    display: none;
+  }
+
+  .header_hamburger {
+    display: flex;
+    justify-self: start;
+  }
+
+  .header__logo {
+    justify-self: center;
+    margin: 0 10px;
+  }
+
+  .header__icons {
+    justify-self: end;
+  }
+
+  .header_container a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+
+  /* Announcement bar adjustments (if used) */
+  .custom_announcement {
+    grid-template-columns: 1fr;
+    padding: 8px 20px;
+  }
+
+  .custom_announcement .list_social,
+  .custom_announcement .nmb {
+    display: none;
+  }
+}

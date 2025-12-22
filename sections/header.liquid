@@ -1,66 +1,239 @@
+{{ 'mobileCSS.css' | asset_url | stylesheet_tag }}
+{{ 'header.css' | asset_url | stylesheet_tag }}
+
+
 <header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
+
+  <div class="mobile_nav_container">
+    <div class="mobile_out_lay">
+      <div class="mobile_wrapper">
+        <!-- Top: Logo + Close -->
+        <div class="mobile_header_top">
+          <div class="mobile_logo">
+            <a href="{{ routes.root_url }}">
+              {% if section.settings.logo != blank %}
+                {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag: alt: shop.name }}
+              {% elsif section.settings.header__logo__text != blank %}
+                <span>{{ section.settings.header__logo__text }}</span>
+              {% endif %}
+            </a>
+          </div>
+          <div class="cancel_icon icon-hover">
+            {% render 'cancel' %}
+          </div>
+        </div>
+
+        <!-- Account Button -->
+        <div class="mobile_account">
+          <button>
+            <span>{% render 'mobile_search' %}</span>
+            <span>Login or Create an Account</span>
+          </button>
+        </div>
+
+        <!-- Scrollable Menu -->
+        <div class="mobile_menu_scroll">
+          <ul class="mobile-nav__links">
+            {% for link in section.settings.main_menu.links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Social Icons at Bottom - Correctly Placed Inside the Panel -->
+        {% if section.settings.show_social_icons %}
+          <div class="mobile_social_container" style=" --mobile-icon-color: {{ section.settings.mobile_icon_color }};">
+            <ul class="mobile_social-links">
+              {% if section.settings.btn_url_facebook != blank %}
+                <li>
+                  <a
+                    href="{{ section.settings.btn_url_facebook }}"
+                    class="mobile_link-social__link icon-hover"
+                    aria-label="Facebook">
+                    {% render 'social-icon'
+                      , icon: 'facebook' %}
+                  </a>
+                </li>
+              {% endif %}
+              {% if section.settings.btn_url_insta != blank %}
+                <li>
+                  <a
+                    href="{{ section.settings.btn_url_insta }}"
+                    class="mobile_link-social__link icon-hover"
+                    aria-label="Instagram">
+                    {% render 'social-icon'
+                      , icon: 'instagram' %}
+                  </a>
+                </li>
+              {% endif %}
+              {% if section.settings.btn_url_tiktok != blank %}
+                <li>
+                  <a
+                    href="{{ section.settings.btn_url_tiktok }}"
+                    class="mobile_link-social__link icon-hover"
+                    aria-label="TikTok">
+                    {% render 'social-icon'
+                      , icon: 'tiktok' %}
+                  </a>
+                </li>
+              {% endif %}
+              {% if section.settings.btn_url_twitter != blank %}
+                <li>
+                  <a
+                    href="{{ section.settings.btn_url_twitter }}"
+                    class="mobile_link-social__link icon-hover"
+                    aria-label="Twitter">
+                    {% render 'social-icon'
+                      , icon: 'twitter' %}
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        {% endif %}
+
+      </div>
+    <!-- End .mobile_wrapper -->
+    </div>
+  <!-- End .mobile_out_lay -->
   </div>
+  <!-- End .mobile_nav_container -->
+  <!-- End .mobile_nav_container -->
 
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      {{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
-    {% endif %}
 
-    <a href="{{ routes.cart_url }}">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
+  <div class="header_container" style="--text_size: {{ section.settings.heading_size }}px">
+
+
+    <div class="header_hamburger">
+      {% render 'hamburger' %}
+
+      {% render 'search-icon' %}
+    </div>
+
+
+    <!-- Navigation Menu -->
+    <nav class="header__menu">
+      <ul>
+        {% for link in section.settings.main_menu.links %}
+          <li class="">{{ link.title | link_to: link.url }}</li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+
+    <a href="{{ routes.root_url }}" class="header__logo grid">
+      {% if section.settings.logo != blank %}
+        {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag: alt: shop.name }}
+      {% elsif section.settings.header__logo__text != blank %}
+        <span>
+          {{ section.settings.header__logo__text }}
+        </span>
+      {% endif %}
+    </a>
+
+
+    <!-- Account & Cart Icons -->
+    <div class="header__icons">
+      {% if shop.customer_accounts_enabled %}
+        
+        <a href="{{ routes.account_url }}" class="accounnt_icon icon-hover">
+          {% render 'account' %}
+        </a>
+        
       {% endif %}
 
-      {{ 'icon-cart.svg' | inline_asset_content }}
-    </a>
+      <a href="{{ routes.cart_url }}" class="cart-link icon-hover">
+        {% if cart.item_count > 0 %}
+          <sup>{{ cart.item_count }}</sup>
+      {% endif %}
+        
+        {% render 'cartt' %}
+      </a>
+    </div>
   </div>
+
+<!-- Logo -->
 </header>
 
-{% stylesheet %}
-  header {
-    height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  header a {
-    position: relative;
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
-  }
-  header svg {
-    width: 2rem;
-  }
-  header .header__menu,
-  header .header__icons {
-    display: flex;
-    gap: 1rem;
-  }
-{% endstylesheet %}
+
+{{ 'header.js' | asset_url | script_tag }}
 
 {% schema %}
-{
-  "name": "t:general.header",
-  "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
-    }
-  ]
-}
+  {
+    "name": "Header",
+    "class": "page-width",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Logo width",
+        "min": 100,
+        "max": 200,
+        "step": 10,
+        "default": 110
+      },
+      {
+        "type": "link_list",
+        "id": "main_menu",
+        "label": "Navigation menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "text",
+        "id": "header__logo__text",
+        "label": "Heading"
+      }, {
+        "type": "range",
+        "id": "heading_size",
+        "label": "Heading size",
+        "min": 20,
+        "max": 100,
+        "step": 2,
+        "default": 24
+      }, {
+        "type": "header",
+        "content": "Icons and Info"
+      }, {
+        "type": "checkbox",
+        "id": "show_social_icons",
+        "label": "Show Icons",
+        "default": true
+      }, {
+        "type": "url",
+        "id": "btn_url_facebook",
+        "label": "facebook",
+        "visible_if": "{{ section.settings.show_social_icons }}"
+      }, {
+        "type": "url",
+        "id": "btn_url_insta",
+        "label": "insta",
+        "visible_if": "{{ section.settings.show_social_icons }}"
+      }, {
+        "type": "url",
+        "id": "btn_url_tiktok",
+        "label": "tiktok",
+        "visible_if": "{{ section.settings.show_social_icons }}"
+      }, {
+        "type": "url",
+        "id": "btn_url_twitter",
+        "label": "twitter",
+        "visible_if": "{{ section.settings.show_social_icons }}"
+      }, {
+        "type": "color",
+        "id": "mobile_icon_color",
+        "label": "Social icons color",
+        "default": "#000000"
+      }
+
+
+    ]
+  }
 {% endschema %}

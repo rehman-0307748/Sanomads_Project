@@ -1,0 +1,180 @@
+{{ 'custom_announcement.css' | asset_url | stylesheet_tag }}
+
+  <div class="page-width">
+  <!-- fixed class name -->
+  <div class="custom_announcement" style="
+              --bg-color: {{ section.settings.bg_color }};
+              --text-color: {{ section.settings.body_text }};
+            ">
+    <!-- Left: Social links -->
+    <ul class="list_social" style="--icon-color: {{ section.settings.icon_color }};">
+      {% for block in section.blocks %}
+        {% if block.type == 'social' %}
+          {% if block.settings.btn_url_facebook != blank %}
+            <li {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.btn_url_facebook }}" class="link-social__link">
+                {% render 'social-icon', icon: 'facebook' %}
+              </a>
+            </li>
+          {% endif %}
+          {% if block.settings.btn_url_insta != blank %}
+            <li {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.btn_url_insta }}" class="link-social__link">
+                {% render 'social-icon', icon: 'instagram' %}
+              </a>
+            </li>
+          {% endif %}
+          {% if block.settings.btn_url_tiktok != blank %}
+            <li {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.btn_url_tiktok }}" class="link-social__link">
+                {% render 'social-icon', icon: 'tiktok' %}
+              </a>
+            </li>
+          {% endif %}
+          {% if block.settings.btn_url_twitter != blank %}
+            <li {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.btn_url_twitter }}" class="link-social__link">
+                {% comment %} <img src="{{ 'twitter.svg' | asset_url }}" class="social__icon" alt="Twitter" width="20" height="20" loading="lazy" /> {% endcomment %}
+                {% render 'social-icon', icon: 'twitter' %}
+              </a>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+
+    <!-- Center: Announcement text -->
+    <div class="announcement">
+      <p>
+        <a href="{{ section.settings.link }}">{{ section.settings.title }}</a>
+      </p>
+    </div>
+
+    <!-- Right: Email / Quick link -->
+    <div class="nmb">
+      {% for block in section.blocks %}
+        {% if block.type == 'info' %}
+          <a href="mailto:{{ block.settings.label_1_link }}?subject={{ section.settings.subject | default: '' }}">
+            {{ block.settings.label_1 }}
+          </a>
+          <a href="{{ block.settings.label_2_link }}">
+            {{ block.settings.label_2 }}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Announcement Bar",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Color settings"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "body_text",
+        "label": "Text and link color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "icon_color",
+        "label": "Social icons color",
+        "default": "#000000"
+      }, {
+        "type": "header",
+        "content": "Announcement message"
+      }, {
+        "type": "inline_richtext",
+        "id": "title",
+        "label": "Message text",
+        "default": "Free <strong>Shipping</strong> Worldwide"
+      }, {
+        "type": "url",
+        "id": "link",
+        "label": "Message link (optional)"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "info",
+        "name": "Quick links",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "header",
+            "content": "First link (e.g., Email)"
+          },
+          {
+            "type": "text",
+            "id": "label_1",
+            "label": "Display text",
+            "default": "hello@yourstore.com"
+          },
+          {
+            "type": "url",
+            "id": "label_1_link",
+            "label": "Link (use mailto: for email)"
+          },
+          {
+            "type": "header",
+            "content": "Second link (e.g., My Account)"
+          }, {
+            "type": "text",
+            "id": "label_2",
+            "label": "Display text",
+            "default": "My Account"
+          }, {
+            "type": "url",
+            "id": "label_2_link",
+            "label": "Link"
+          }
+        ]
+      }, {
+        "type": "social",
+        "name": "Social media links",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "header",
+            "content": "Social media URLs"
+          },
+          {
+            "type": "url",
+            "id": "btn_url_facebook",
+            "label": "Facebook"
+          },
+          {
+            "type": "url",
+            "id": "btn_url_insta",
+            "label": "Instagram"
+          },
+          {
+            "type": "url",
+            "id": "btn_url_tiktok",
+            "label": "TikTok"
+          }, {
+            "type": "url",
+            "id": "btn_url_twitter",
+            "label": "Twitter / X"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Announcement Bar"
+      }
+    ]
+  }
+{% endschema %}
