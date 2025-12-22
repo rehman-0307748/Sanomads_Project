@@ -20,10 +20,11 @@
         "header__logo__text": "",
         "heading_size": 24,
         "show_social_icons": true,
-        "btn_url_facebook": "",
-        "btn_url_insta": "",
-        "btn_url_tiktok": "",
-        "btn_url_twitter": ""
+        "btn_url_facebook": "shopify://collections/frontpage",
+        "btn_url_insta": "shopify://pages/contact",
+        "btn_url_tiktok": "shopify://products/postor",
+        "btn_url_twitter": "shopify://products/postor-2",
+        "mobile_icon_color": "#48c6d9"
       }
     }
   },
