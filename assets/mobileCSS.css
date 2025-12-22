@@ -1,0 +1,223 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.mobile_nav_container {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.mobile_nav_container.active {
+  pointer-events: auto;
+}
+
+.mobile_out_lay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(1px);
+  z-index: 1;
+  opacity: 0;
+  /* transform: translateX(-100%); */
+  transition: opacity 0.25s ease-in-out;
+}
+
+.mobile_nav_container.active .mobile_out_lay {
+  /* transform: translateX(0); */
+  opacity: 4;
+}
+
+.mobile_wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+  background-color: #fff;
+  width: 70vw;
+  max-width: 400px;
+  height: 100vh;
+  box-shadow: 6px 0 20px rgba(0, 0, 0, 0.2);
+  transform: translateX(-100%);
+  transition: transform 0.25s ease-in-out;
+}
+
+.mobile_nav_container.active .mobile_wrapper {
+  transition: transform 0.25s ease-in-out;
+  transform: translateX(0);
+}
+
+/* Top header: logo + close button */
+.mobile_header_top {
+  position: relative;
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.cancel_icon {
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease-in-out;
+}
+
+.cancel_icon:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.cancel_icon svg {
+  width: 24px;
+  height: auto;
+  display: block;
+}
+
+.icon-hover {
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.icon-hover:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+}
+
+.icon-hover:active {
+  transform: scale(0.9);
+}
+
+.mobile_logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile_logo a {
+  display: block;
+}
+
+.mobile_logo img {
+  max-height: 50px;
+  width: auto;
+}
+
+/* Account button */
+.mobile_account {
+  flex-shrink: 0;
+  border-bottom: 1px solid #eee;
+}
+
+.mobile_account button {
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: sans-serif;
+  cursor: pointer;
+  /* background-color: transparent; */
+  background-color: #48c6d9;
+  border: none;
+  text-align: left;
+  color: inherit;
+}
+
+.mobile_account button span svg {
+  width: 22px;
+  height: auto;
+}
+
+/* Scrollable menu area - THIS IS THE KEY FIX */
+.mobile_menu_scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.mobile-nav__links {
+  list-style: none;
+}
+
+.mobile-nav__links li a {
+  display: block;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+  font-family: sans-serif;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-nav__links li a:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Social Icons Container - Bottom of Mobile Menu */
+.mobile_social_container {
+  flex-shrink: 0; /* Prevents shrinking */
+  padding: 20px 16px;
+  border-top: 1px solid #eee;
+  background-color: #fafafa; /* Optional: subtle background */
+
+}
+
+.list_social a {
+  color: var(--icon-color); /* This passes the color to the SVG */
+}
+
+.mobile_social-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile_link-social__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.mobile_link-social__link svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor; /* Allows color inheritance if needed */
+  color: var(--mobile-icon-color);
+}
+
+/* Reuse your existing icon-hover styles */
+.mobile_link-social__link:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  transform: scale(1.1);
+}
+
+.mobile_link-social__link:active {
+  transform: scale(0.95);
+}

@@ -8,5 +8,33 @@
  * ------------------------------------------------------------
  */
 {
-  "current": {}
+  "current": {
+    "sections": {
+      "custom_announcment": {
+        "type": "custom_announcment",
+        "blocks": {
+          "social_ccqzc3": {
+            "type": "social",
+            "settings": {
+              "btn_url_facebook": "shopify://collections/frontpage",
+              "btn_url_insta": "#",
+              "btn_url_tiktok": "shopify://pages/contact",
+              "btn_url_twitter": "shopify://policies/privacy-policy"
+            }
+          }
+        },
+        "block_order": [
+          "social_ccqzc3"
+        ],
+        "settings": {
+          "bg_color": "#48c6d9",
+          "body_text": "#000000",
+          "icon_color": "#ffffff",
+          "title": "Free <strong>Shipping</strong> Worldwide",
+          "link": ""
+        }
+      }
+    },
+    "content_for_index": []
+  }
 }
