@@ -13,21 +13,24 @@
           {% if block.settings.btn_url_facebook != blank %}
             <li {{ block.shopify_attributes }}>
               <a href="{{ block.settings.btn_url_facebook }}" class="link-social__link">
-                {% render 'social-icon', icon: 'facebook' %}
+                {% render 'social-icon'
+                  , icon: 'facebook' %}
               </a>
             </li>
           {% endif %}
           {% if block.settings.btn_url_insta != blank %}
             <li {{ block.shopify_attributes }}>
               <a href="{{ block.settings.btn_url_insta }}" class="link-social__link">
-                {% render 'social-icon', icon: 'instagram' %}
+                {% render 'social-icon'
+                  , icon: 'instagram' %}
               </a>
             </li>
           {% endif %}
           {% if block.settings.btn_url_tiktok != blank %}
             <li {{ block.shopify_attributes }}>
               <a href="{{ block.settings.btn_url_tiktok }}" class="link-social__link">
-                {% render 'social-icon', icon: 'tiktok' %}
+                {% render 'social-icon'
+                  , icon: 'tiktok' %}
               </a>
             </li>
           {% endif %}
@@ -35,7 +38,8 @@
             <li {{ block.shopify_attributes }}>
               <a href="{{ block.settings.btn_url_twitter }}" class="link-social__link">
                 {% comment %} <img src="{{ 'twitter.svg' | asset_url }}" class="social__icon" alt="Twitter" width="20" height="20" loading="lazy" /> {% endcomment %}
-                {% render 'social-icon', icon: 'twitter' %}
+                {% render 'social-icon'
+                  , icon: 'twitter' %}
               </a>
             </li>
           {% endif %}
@@ -46,9 +50,12 @@
 
     <!-- Center: Announcement text -->
     <div class="announcement">
-      <p>
-        <a href="{{ section.settings.link }}">{{ section.settings.title }}</a>
-      </p>
+
+      <a href="{{ section.settings.link }}">
+        <p>
+          {{ section.settings.title }}</p>
+      </a>
+
     </div>
 
     <!-- Right: Email / Quick link -->

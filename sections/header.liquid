@@ -137,15 +137,19 @@
 
     <!-- Account & Cart Icons -->
     <div class="header__icons">
+      <a href="{{ routes.account_url }}" class="accounnt_icon header_icon header_icon-hover">
+        {% render 'search-icon' %}
+      </a>
+
       {% if shop.customer_accounts_enabled %}
 
-        <a href="{{ routes.account_url }}" class="accounnt_icon icon-hover">
+        <a href="{{ routes.account_url }}" class="accounnt_icon header_icon header_icon-hover">
           {% render 'account' %}
         </a>
 
       {% endif %}
 
-      <a href="{{ routes.cart_url }}" class="cart-link icon-hover">
+      <a href="{{ routes.cart_url }}" class="cart-link header_icon header_icon-hover">
         {% if cart.item_count > 0 %}
           <sup>{{ cart.item_count }}</sup>
         {% endif %}
