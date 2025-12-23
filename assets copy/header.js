@@ -1,5 +1,5 @@
 
-  const hamburger = document.querySelector('.menu_icon');
+  const hamburger = document.querySelector('.header_hamburger');
   const cancel = document.querySelector('.cancel_icon');
   const mobileNav = document.querySelector('.mobile_nav_container');
   const overlay = document.querySelector('.mobile_out_lay');
@@ -17,7 +17,6 @@
   // Open when clicking hamburger
   if (hamburger) {
     hamburger.addEventListener('click', openMenu);
-    console.log("Clicked")
   }
   
   // Close when clicking the cancel (X) icon
