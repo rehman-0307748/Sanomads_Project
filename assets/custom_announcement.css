@@ -4,7 +4,16 @@
 .custom_announcement p,
 .custom_announcement a,
 .custom_announcement .nmb a {
+  
   font-family: 'Area Normal';
+}
+
+.custom_announcement p{
+  font-family: Area Normal;
+  font-size: clamp(0.7708rem, 0.7708rem + 0.0vw, 0.7708rem);
+  line-height: 1.5;
+  font-weight: 400;
+  text-align: center;
 }
 
 .custom_announcement {
