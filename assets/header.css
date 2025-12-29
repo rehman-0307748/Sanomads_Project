@@ -55,8 +55,10 @@
 }
 
 .header_container svg {
-  width: 28px;
+  /* width: 28px; */
+  width: 26px;
   height: auto;
+  font: bold;
 }
 
 .header__menu ul {
