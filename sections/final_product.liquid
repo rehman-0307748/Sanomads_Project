@@ -1,0 +1,180 @@
+<div class="product">
+  <div class="product_wrapper">
+
+    <div class="product_gallary">
+      {% for image in product.images %}
+        <div class="product_image_container">
+          {{ image | image_url: width: 800, height: 800 | image_tag }}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="product_info_wrapper">
+      <div class="product_info_container">
+
+        <div class="product_title">
+          <h1>{{ product.title }}</h1>
+        </div>
+
+        <div class="product_description">
+          <p>{{ product.description }}</p>
+        </div>
+
+        {% for option in product.options_with_values %}
+
+          {% if option.name == "Color" %}
+            <div class="product_color">
+              <p>{{ option.name }}</p>
+              <div class="swatches_container">
+                {% for value in option.values %}
+                  <button
+                    type="button"
+                    class="swatch-btn"
+                    data-value="{{ value }}">
+                    {% if value.swatch.image %}
+                      {{ value.swatch.image | image_url: width: 26, height: 26 | image_tag }}
+                    {% elsif value.swatch.color %}
+                      <span class="swatch-dot" style="background-color: {{ value.swatch.color }};"></span>
+                    {% else %}
+                      <span class="swatch-text">{{ value }}</span>
+                    {% endif %}
+                  </button>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          {% if option.name == "Shoe size" %}
+            <div class="product_size">
+              <p>{{ option.name }}</p>
+              <div class="size-btn_container">
+                {% for value in option.values %}
+
+                  <button
+                    type="button"
+                    class="size-btn"
+                    data-value="{{ value }}">
+                    <span class="size">{{ value }}</span>
+                  </button>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+        {% endfor %}
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<style>
+  .product_wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 8px;
+    row-gap: 8px;
+    padding: 8px;
+    /* background-color: pink; */
+  }
+
+  .product_gallary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 8px;
+    row-gap: 8px;
+    /* background-color: orange; */
+  }
+
+  .product_image_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #f3f3f3;
+    /* overflow: hidden; */
+    /* overflow-y: auto; */
+    overflow: hidden;
+  }
+
+  .product_image_container img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: zoom-in;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.4s ease;
+  }
+
+  .product_image_container img:hover {
+    transform: scale(1.05);
+    /* transform: scale(0.8); */
+  }
+
+  .product_info_container {
+    padding: 40px;
+    /* background-color: aquamarine; */
+  }
+
+  .product_info_container > div {
+    margin: 20px 0;
+  }
+
+  .product_description p {
+    font-family: "Figtree";
+    font-size: 14px;
+  }
+
+  .product_color button {
+    display: flex;
+    align-items: center;
+  }
+
+  .product_color img {
+    width: 35px;
+    height: auto;
+    display: block;
+  }
+  .swatches_container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+
+  .swatch-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .size-btn_container {
+    display: flex;
+    gap: 10px;
+    padding-top: 10px;
+    flex-wrap: wrap;
+  }
+  .size-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    /* display: block; */
+    width: 46px;
+    height: 30px;
+    padding: 12px;
+    font-size: 12px;
+    border: 1px solid black;
+    border-radius: 2px;
+    transition: all 0.025s ease-in;
+  }
+  .size-btn:hover {
+    color: white;
+    background-color: black;
+
+  }
+
+
+</style>

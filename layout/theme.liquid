@@ -5,11 +5,11 @@
     {% render 'css-variables' %}
 
     {% comment %} 
-                                                Font preloading: 
-                                                1. Preconnect to font CDN for faster connection 
-                                                2. Preload only the critical font variant (base weight) 
-                                                3. Additional variants load on-demand via @font-face 
-                                {% endcomment %}
+                                                                              Font preloading: 
+                                                                              1. Preconnect to font CDN for faster connection 
+                                                                              2. Preload only the critical font variant (base weight) 
+                                                                              3. Additional variants load on-demand via @font-face 
+                                                    {% endcomment %}
     {% unless settings.type_primary_font.system? %}
     <link
         rel="preconnect"
@@ -34,6 +34,7 @@
   <body>
     {% section 'custom_announcment' %}
     {% sections 'header-group' %}
+  {% section 'final_product' %}
     {% comment %} {% section 'bodyyy' %} {% endcomment %}
     {% comment %} {%  section 'feeee' %} {% endcomment %}
     {{ content_for_layout }}
