@@ -1,0 +1,168 @@
+{{ 'product.css' | asset_url | stylesheet_tag }}
+
+<div class="product">
+  <div class="product_wrapper">
+    <div class="product_gallary">
+
+
+      {% for image in product.images %}
+
+        <div class="product_image_container" data-media-id="{{ image.id }}">
+          {{ image | image_url: width: 800, height: 800 | image_tag }}
+        </div>
+
+      {% endfor %}
+
+    </div>
+
+
+    <div class="product_info_wrapper">
+      <div class="product_info_container">
+        <div class="product_info_container__inside">
+
+          <div class="product_title">
+            <h1 style="line-height: 1;">{{ product.title }}</h1>
+          </div>
+
+          <div class="product_description">
+            <p>{{ product.description }}</p>
+          </div>
+
+
+          {% for option in product.options_with_values %}
+
+            {% if option.name == "Color" %}
+              <div class="product_color">
+                <p>{{ option.name }}</p>
+                <div
+                  class="swatches_container"
+                  role="radiogroup"
+                  aria-label="Color">
+                  {% for value in option.values %}
+                    <label class="swatch-label" data-value="{{ value | handleize }}">
+                      <input
+                        type="radio"
+                        name="option1"
+                        value="{{ value.id }}"
+                        class="swatch-radio"
+                        {% if forloop.first %}
+                        checked{% endif %}>
+                      <span class="swatch-visual">
+                        {% if value.swatch.image %}
+                          {{ value.swatch.image | image_url: width: 40, height: 40 | image_tag: class: 'swatch-image' }}
+                        {% elsif value.swatch.color %}
+                          <span class="swatch-dot" style="background-color: {{ value.swatch.color }};"></span>
+                        {% else %}
+                          <span class="swatch-text">{{ value }}</span>
+                        {% endif %}
+                      </span>
+                    </label>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+
+            {% if option.name == "Shoe size" %}
+              <div class="product_size">
+                <p>{{ option.name }}</p>
+                <div
+                  class="size-btn_container"
+                  role="radiogroup"
+                  aria-label="Shoe size">
+                  {% for value in option.values %}
+                    <label class="size-label" data-value="{{ value }}">
+                      <input
+                        type="radio"
+                        name="option2"
+                        value="{{ value.id }}"
+                        class="size-radio"
+                        {% if forloop.first %}
+                        checked{% endif %}>
+
+                      <span class="size-text">{{ value }}</span>
+                    </label>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+
+
+          {% endfor %}
+
+          <div class="product_price">
+            <h2 style="line-height: 1" ;>
+              {{ product.price | money }}
+            </h2>
+          </div>
+
+          <div class="product_buttons">
+            <div class="product_counter">
+              <button class="counter_btn">
+                <span class="counter_icon">
+                  {% render 'sign'
+                    , sigen: 'minus' %}
+                </span>
+                <span>1</span>
+                <span class="counter_icon">
+                  {% render 'sign'
+                    , sigen: 'plus' %}
+                </span>
+              </button>
+            </div>
+            <div class="product_add_cart">
+              <button>
+                <span>Add to Cart</span>
+              </button>
+            </div>
+            <div class="product_buy">
+              <button>
+                <span>Buy It Now</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+  {% comment %} <ul>
+                                                      {% for variant in product.variants %}
+                                                        <li>
+                                                          {{ variant.option1 }}
+                                                        </li>
+                                                      {% endfor %}
+                            </ul> {% endcomment %}
+
+  </div>
+</div>
+
+
+<script>
+  
+  const colorRadios = document.querySelectorAll('.swatch-radio');
+  
+  
+  const sizeRadios = document.querySelectorAll('.size-radio');
+  
+  
+  colorRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      console.log('Selected Color:', radio.value);
+    });
+  });
+  
+  // When size changes
+  sizeRadios.forEach(radio => {
+    radio.addEventListener('click', () => {
+      console.log('Clicked:', radio.value);
+     });
+  
+  });
+</script>
+
+
+<script>
+  var produ = {{ product |  json }}
+  console.log( produ )
+</script>
