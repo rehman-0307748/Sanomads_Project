@@ -1,180 +1,270 @@
+{{ 'product.css' | asset_url | stylesheet_tag }}
+
+<script type="application/json" id="product-data">
+  {{ product | json }}
+</script>
+
 <div class="product">
   <div class="product_wrapper">
 
-    <div class="product_gallary">
-      {% for image in product.images %}
+    <div class="product_gallary" id="change-image">
+      {% if product.selected_or_first_available_variant.image %}
         <div class="product_image_container">
-          {{ image | image_url: width: 800, height: 800 | image_tag }}
+          {{ product.selected_or_first_available_variant.image | image_url: width: 800, height: 800 | image_tag }}
         </div>
+      {% endif %}
+
+      {% for image in product.images %}
+        {% if product.selected_or_first_available_variant.image != image %}
+          <div class="product_image_container" data-media-id="{{ image.id }}">
+            {{ image | image_url: width: 800, height: 800 | image_tag }}
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
 
     <div class="product_info_wrapper">
       <div class="product_info_container">
+        <div class="product_info_container__insidee">
 
-        <div class="product_title">
-          <h1>{{ product.title }}</h1>
-        </div>
+          <div class="product_title ">
+            <h1 style="line-height: 1;">{{ product.title }}</h1>
+          </div>
 
-        <div class="product_description">
-          <p>{{ product.description }}</p>
-        </div>
+          <div class="product_description ">
+            <p>{{ product.description }}</p>
+          </div>
 
-        {% for option in product.options_with_values %}
+          {% form 'product'
+            , product
+            , id: 'product-form' %}
 
-          {% if option.name == "Color" %}
-            <div class="product_color">
-              <p>{{ option.name }}</p>
-              <div class="swatches_container">
-                {% for value in option.values %}
-                  <button
-                    type="button"
-                    class="swatch-btn"
-                    data-value="{{ value }}">
-                    {% if value.swatch.image %}
-                      {{ value.swatch.image | image_url: width: 26, height: 26 | image_tag }}
-                    {% elsif value.swatch.color %}
-                      <span class="swatch-dot" style="background-color: {{ value.swatch.color }};"></span>
-                    {% else %}
-                      <span class="swatch-text">{{ value }}</span>
-                    {% endif %}
-                  </button>
-                {% endfor %}
+            <input
+              type="hidden"
+              id="product-id"
+              name="id"
+              value="{{ product.selected_or_first_available_variant.id }}">
+
+            {% for option in product.options_with_values %}
+
+              {% if option.name == "Color" %}
+                <div class="product_color m-y">
+                  <p>{{ option.name }}</p>
+                  <div
+                    class="swatches_container"
+                    role="radiogroup"
+                    aria-label="Color">
+                    {% for value in option.values %}
+                      <label class="swatch-label" data-value="{{ value | handleize }}">
+                        <input
+                          type="radio"
+                          name="option1"
+                          value="{{ value }}"
+                          class="swatch-radio"
+                          {% if option.selected_value == value %}
+                          checked{% endif %}>
+                        <span class="swatch-visual">
+                          {% if value.swatch.image %}
+                            {{ value.swatch.image | image_url: width: 40, height: 40 | image_tag: class: 'swatch-image' }}
+                          {% elsif value.swatch.color %}
+                            <span class="swatch-dot" style="background-color: {{ value.swatch.color }};"></span>
+                          {% else %}
+                            <span class="swatch-text">{{ value }}</span>
+                          {% endif %}
+                        </span>
+                      </label>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
+
+              {% if option.name == "Shoe size" %}
+                <div class="product_size m-y">
+                  <p>{{ option.name }}</p>
+                  <div
+                    class="size-btn_container"
+                    role="radiogroup"
+                    aria-label="Shoe size">
+                    {% for value in option.values %}
+                      <label class="size-label" data-value="{{ value }}">
+                        <input
+                          type="radio"
+                          name="option2"
+                          value="{{ value }}"
+                          class="size-radio"
+                          {% if option.selected_value == value %}
+                          checked{% endif %}>
+                        <span class="size-text">{{ value }}</span>
+                      </label>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
+
+            {% endfor %}
+
+            <div class="product_price">
+              {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+                <h2 style="line-height: 1;">{{ product.selected_or_first_available_variant.compare_at_price | money }}</h2>
+                <h2 style="line-height: 1;">{{ product.selected_or_first_available_variant.price | money }}</h2>
+              {% else %}
+                <h2 style="line-height: 1;">{{ product.selected_or_first_available_variant.price | money }}</h2>
+              {% endif %}
+            </div>
+
+            <div class="product_buttons m-y">
+              <div class="product_counter">
+                <button type="button" class="counter_btn">
+                  <span class="counter_icon">{% render 'sign'
+ 
+
+ 
+, sigen: 'minus' %}</span>
+                  <span>1</span>
+                  <span class="counter_icon">{% render 'sign'
+ 
+
+ 
+, sigen: 'plus' %}</span>
+                </button>
+              </div>
+
+              <div class="product_add_cart">
+                <button type="submit">
+                  <span>Add to Cart</span>
+                </button>
+              </div>
+
+              <div class="product_buy">
+                <button type="button">
+                  <span>Buy It Now</span>
+                </button>
               </div>
             </div>
-          {% endif %}
 
-          {% if option.name == "Shoe size" %}
-            <div class="product_size">
-              <p>{{ option.name }}</p>
-              <div class="size-btn_container">
-                {% for value in option.values %}
+          {% endform %}
 
-                  <button
-                    type="button"
-                    class="size-btn"
-                    data-value="{{ value }}">
-                    <span class="size">{{ value }}</span>
-                  </button>
-                {% endfor %}
-              </div>
-            </div>
-          {% endif %}
-
-        {% endfor %}
-
+        </div>
       </div>
     </div>
 
   </div>
 </div>
 
-
-<style>
-  .product_wrapper {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    column-gap: 8px;
-    row-gap: 8px;
-    padding: 8px;
-    /* background-color: pink; */
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  const productEl = document.getElementById('product-data');
+  if (!productEl) return;
+  const product = JSON.parse(productEl.textContent);
+  
+  const idInput = document.getElementById('product-id');
+  if (!idInput) return;
+  
+  const mainImageWrap = document.querySelector('#change-image .product_image_container:first-child');
+  const mainImage = mainImageWrap?.querySelector('img');
+  const priceWrap = document.querySelector('.product_price');
+  
+  const colorRadios = document.querySelectorAll('.swatch-radio');
+  const sizeRadios = document.querySelectorAll('.size-radio');
+  
+  // Add fade transition CSS inline (or add to your product.css)
+  if (mainImage) {
+    mainImage.style.transition = 'opacity 0.3s ease-in-out';
+    mainImage.style.opacity = '1';
   }
-
-  .product_gallary {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 8px;
-    row-gap: 8px;
-    /* background-color: orange; */
+  
+  function formatMoney(cents) {
+    return 'Rs ' + Math.round(cents / 100).toLocaleString('en-PK');
   }
-
-  .product_image_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    background-color: #f3f3f3;
-    /* overflow: hidden; */
-    /* overflow-y: auto; */
-    overflow: hidden;
+  
+  function updateUrl(variantId) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('variant', variantId);
+    window.history.replaceState({}, '', url);
   }
-
-  .product_image_container img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    cursor: zoom-in;
-    object-fit: cover;
-    object-position: center;
-    transition: transform 0.4s ease;
+  
+  function getSelected() {
+    return {
+      color: document.querySelector('.swatch-radio:checked')?.value?.trim() || '',
+      size: document.querySelector('.size-radio:checked')?.value?.trim() || ''
+    };
   }
-
-  .product_image_container img:hover {
-    transform: scale(1.05);
-    /* transform: scale(0.8); */
+  
+  function findVariant(color, size) {
+    return product.variants.find(v => 
+      (v.option1 || '').trim() === color && (v.option2 || '').trim() === size
+    );
   }
-
-  .product_info_container {
-    padding: 40px;
-    /* background-color: aquamarine; */
+  
+  function updatePrice(variant) {
+    if (!priceWrap || !variant) return;
+    const p = variant.price;
+    const cp = variant.compare_at_price;
+    priceWrap.innerHTML = (cp && cp > p)
+      ? `<h2 style="line-height: 1;">${formatMoney(cp)}</h2><h2 style="line-height: 1;">${formatMoney(p)}</h2>`
+      : `<h2 style="line-height: 1;">${formatMoney(p)}</h2>`;
   }
-
-  .product_info_container > div {
-    margin: 20px 0;
+  
+  function preloadImages() {
+    // Preload all variant featured images once on load (caches them)
+    product.variants.forEach(variant => {
+      if (variant?.featured_image?.src) {
+        let src = variant.featured_image.src.split('?')[0];
+        src = src.replace(/(\.\w+)$/, '_600x600$1'); // smaller for preload speed
+        const img = new Image();
+        img.src = src;
+        console.log('[Preload] Cached variant image:', src);
+      }
+    });
   }
-
-  .product_description p {
-    font-family: "Figtree";
-    font-size: 14px;
+  
+  function updateImage(variant) {
+    if (!mainImage) return console.warn('[Image] Main img missing');
+  
+    if (!variant?.featured_image?.src) {
+      console.log('[Image] No featured_image for variant');
+      return;
+    }
+  
+    // Fade out first
+    mainImage.style.opacity = '0.5';
+  
+    let newSrc = variant.featured_image.src.split('?')[0];
+    newSrc = newSrc.replace(/(\.\w+)$/, '_800x800$1'); // your original size
+  
+    const preload = new Image();
+    preload.onload = () => {
+      console.log('[Image] Swapped to:', newSrc);
+      mainImage.src = newSrc;
+      mainImage.srcset = '';
+      mainImage.sizes = '';
+      // Fade back in
+      setTimeout(() => { mainImage.style.opacity = '1'; }, 100);
+    };
+    preload.onerror = () => {
+      console.error('[Image] Load fail:', newSrc);
+      mainImage.style.opacity = '1'; // recover
+    };
+    preload.src = newSrc;
   }
-
-  .product_color button {
-    display: flex;
-    align-items: center;
+  
+  function onChange() {
+    const { color, size } = getSelected();
+    if (!color || !size) return;
+  
+    const variant = findVariant(color, size);
+    if (!variant) return;
+  
+    idInput.value = variant.id;
+    updateUrl(variant.id);
+    updateImage(variant);
+    updatePrice(variant);
   }
-
-  .product_color img {
-    width: 35px;
-    height: auto;
-    display: block;
-  }
-  .swatches_container {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-  }
-
-
-  .swatch-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  .size-btn_container {
-    display: flex;
-    gap: 10px;
-    padding-top: 10px;
-    flex-wrap: wrap;
-  }
-  .size-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-    /* display: block; */
-    width: 46px;
-    height: 30px;
-    padding: 12px;
-    font-size: 12px;
-    border: 1px solid black;
-    border-radius: 2px;
-    transition: all 0.025s ease-in;
-  }
-  .size-btn:hover {
-    color: white;
-    background-color: black;
-
-  }
-
-
-</style>
+  
+  // Preload all on page load
+  preloadImages();
+  
+  [...colorRadios, ...sizeRadios].forEach(r => r.addEventListener('change', onChange));
+  onChange(); // initial update
+  });
+</script>

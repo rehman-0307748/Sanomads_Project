@@ -1,0 +1,78 @@
+<script type="application/json" id="product-data">
+  {{ product | json }}
+</script>
+
+
+{% comment %} {{ 'product-variant.js' |  asset_url | script_tag }} {% endcomment %}
+
+<script src="{{ 'product-variant.js' | asset_url }}" defer></script>
+
+
+{% form 'product'
+  , product %}
+  <input
+    type="hidden"
+    id="product-id"
+    name="id"
+    value="{{ product.selected_or_first_available_variant.id }}">
+
+  <div class="product_price">
+    {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+      <h2 style="line-height: 1;">
+        {{ product.selected_or_first_available_variant.compare_at_price | money }}
+      </h2>
+      <h2 style="line-height: 1;">
+        {{ product.selected_or_first_available_variant.price | money }}
+      </h2>
+
+    {% else %}
+
+      <h2 style="line-height: 1;">
+        {{ product.selected_or_first_available_variant.price | money }}
+      </h2>
+    {% endif %}
+  </div>
+  <div class="product_gallary" id="change-image">
+    {% if product.selected_or_first_available_variant.image %}
+      <div class="product_image_container">
+        {{ product.selected_or_first_available_variant.image | image_url: width: 800, height: 800 | image_tag }}
+      </div>
+
+    {% endif %}
+
+    {% for image in product.images %}
+      {% if product.selected_or_first_available_variant.image != image %}
+        <div class="product_image_container" data-media-id="{{ image.id }}">
+          {{ image | image_url: width: 800, height: 800 | image_tag }}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+
+  {% if product.variants.size > 1 %}
+    <div class="product-option">
+      {% for option in product.options_with_values %}
+        <fieldset>
+          <legend>{{ option.name }}</legend>
+
+          {% for value in option.values %}
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  name="{{ option.name }}"
+                  value="{{ value }}"
+                  {% if option.selected_value == value %}
+                  checked{% endif %}>
+                {{ value }}
+              </label>
+            </div>
+          {% endfor %}
+        </fieldset>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <button type="submit">Add to cart</button>
+{% endform %}
